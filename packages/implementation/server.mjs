@@ -4,6 +4,7 @@ import Koa from 'koa';
 import Router from 'koa-router';
 import BodyParser from 'koa-body';
 import Static from 'koa-static';
+import cors from '@koa/cors';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -75,6 +76,7 @@ router.post('/', async (ctx) => {
   }
 });
 
+app.use(cors());
 app.use(Static(__dirname));
 app.use(BodyParser());
 app.use(router.routes());

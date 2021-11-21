@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@decentralized-identity/ion-tools": "0.1.0",
+    "@koa/cors": "^3.1.0",
     "@nano-sql/core": "2.3.7",
     "base64url": "3.0.1",
     "browserify-shim": "^3.8.14",

@@ -9,6 +9,7 @@ const Validator = {
     return validator instanceof Function ? !!validator(descriptor) : !!validator;
   },
   interfaces: {
+    FeatureDetectionRead: true,
     ProfileRead: true,
     ProfileWrite: true,
     ProfileDelete: true,

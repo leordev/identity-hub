@@ -1,11 +1,11 @@
-import { useState } from 'react'
-import './App.css'
-import NavBarMenu from './components/layout/NavbarMenu'
+import { MainScreen } from './components/MainScreen'
+import { NavBarMenu } from './components/NavbarMenu'
 
-function App() {
+const App = () => {
   return (
     <div className="p-4 lg:p-10">
       <NavBarMenu />
+      <MainScreen />
     </div>
   )
 }
