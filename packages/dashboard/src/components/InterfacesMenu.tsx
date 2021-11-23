@@ -1,12 +1,14 @@
-import { BiCheckCircle, BiCircle, BiErrorCircle } from 'react-icons/bi'
+import { BiCheckCircle, BiCircle } from 'react-icons/bi'
 
-import { InterfaceStatus } from '../lib/IdentityHubClient'
+import { InterfacesStatus } from '../lib/IdentityHubClient'
 
 interface InterfacesMenuProps {
-  interfaces: InterfaceStatus
+  interfaces: InterfacesStatus
+  selectedInterface: string
+  onSelect: (newInterface: string) => Promise<void>
 }
 
-export const InterfacesMenu = ({ interfaces }: InterfacesMenuProps) => {
+export const InterfacesMenu = ({ interfaces, onSelect, selectedInterface }: InterfacesMenuProps) => {
   return (
     <>
       <ul className="menu py-3 shadow-lg bg-base-100 rounded-box">
@@ -14,9 +16,14 @@ export const InterfacesMenu = ({ interfaces }: InterfacesMenuProps) => {
           <span>Interfaces List</span>
         </li>
         {Object.keys(interfaces).map((key, index) => (
-          <InterfaceMenuItem key={`interface-item-${index}`} interfaceName={key} enabled={interfaces[key]} />
+          <InterfaceMenuItem
+            key={`interface-item-${index}`}
+            interfaceName={key}
+            selected={key === selectedInterface}
+            onClick={() => onSelect(key)}
+            enabled={interfaces[key]}
+          />
         ))}
-        <InterfaceMenuItem interfaceName="SudoEverythingWrite" />
       </ul>
     </>
   )
@@ -25,12 +32,14 @@ export const InterfacesMenu = ({ interfaces }: InterfacesMenuProps) => {
 interface InterfaceMenuItemProps {
   interfaceName: string
   enabled?: boolean
+  selected?: boolean
+  onClick: () => void
 }
-const InterfaceMenuItem = ({ enabled, interfaceName }: InterfaceMenuItemProps) => {
+const InterfaceMenuItem = ({ enabled, selected, interfaceName, onClick }: InterfaceMenuItemProps) => {
   const icon = enabled ? <BiCheckCircle className={ICON_CLASS} /> : <BiCircle className={ICON_CLASS} />
   return (
-    <li className={!enabled ? 'disabled' : ''}>
-      <a>
+    <li className={`${!enabled ? 'disabled' : ''} ${selected ? 'bordered font-bold' : ''}`}>
+      <a onClick={onClick}>
         {icon} {interfaceName}
       </a>
     </li>

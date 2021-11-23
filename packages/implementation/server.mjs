@@ -58,8 +58,12 @@ router.post('/upload', async (ctx) => {
     })]
   })
   
-  let response = await hub.handleRequest(request);
-  ctx.body = response;
+  // TODO: check the following fix:
+  // the above generate request is already processing the Interface (eg ProfileWrite),
+  // so why call another handleRequest?
+  // let response = await hub.handleRequest(request);
+  // ctx.body = response;
+  ctx.body = request;
 });
 
 router.post('/', async (ctx) => {

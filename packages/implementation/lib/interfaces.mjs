@@ -42,12 +42,19 @@ const Interfaces = {
     }, FeatureDetection);
   },
   async ProfileRead(hub){
-    let entry = await hub.storage.get('profile', 'profile').catch(e => console.log(e));
+    let entry = await hub.storage.get('profile', 'default').catch(e => console.log(e));
     if (entry) return resolveEntry(hub, entry);
     else throw 204;
   },
   async ProfileWrite(hub, message){
-    await hub.storage.set('profile', Object.assign({}, message, { id: 'default' })).catch(e => console.log(e));
+    const messageCIDs = await Utils.getMessageCIDs(message);
+    const descriptorID = messageCIDs.descriptor;
+    await hub.commitMessage(message);
+    const entry = message;
+    entry.clock = message.descriptor.clock; // TODO: check for clock order (similar to CollectionWrite)
+    entry.tip = descriptorID;
+    entry.messages = [descriptorID];
+    await hub.storage.set('profile', Object.assign({}, entry, { id: 'default' })).catch(e => console.log(e));
   },
   async ProfileDelete(hub){
     await hub.storage.remove('profile', 'default').catch(e => console.log(e));
